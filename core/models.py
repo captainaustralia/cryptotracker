@@ -3,7 +3,8 @@ from django.db import models
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, password, username='', is_staff=False, is_admin=False, is_active=False, **kwargs):
+
+    def create_user(self, email, password, username='', is_staff=False, is_admin=False, is_active=False):
         user_obj = self.model(email=self.normalize_email(email))
         user_obj.username = username
         user_obj.is_admin = is_admin
@@ -40,7 +41,7 @@ class User(AbstractBaseUser):
     is_admin = models.BooleanField()
     is_staff = models.BooleanField()
 
-    object = CustomUserManager()
+    objects = CustomUserManager()
 
     USERNAME_FIELD = "email"
 
@@ -79,22 +80,35 @@ class Coin(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Coin'
+        verbose_name_plural = 'Coins'
+
 
 class Portfolio(models.Model):
     name = models.CharField(
         max_length=50
     )
+
     owner = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='users'
     )
+
     coins = models.ManyToManyField(
         Coin,
         related_name='coins',
         blank=True,
-        null=True
+    )
+
+    date = models.DateTimeField(
+        auto_now=True
     )
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Portfolio'
+        verbose_name_plural = 'Portfolios'

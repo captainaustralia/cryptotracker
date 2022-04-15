@@ -1,33 +1,47 @@
-from django.http import HttpResponse
-from django.shortcuts import render
 from rest_framework import generics, status, permissions
-from rest_framework.decorators import api_view
-from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.core import exceptions
+from api.serializers import UserPortfolioCreateSerializer, UserPortfolioSerializer, UserRegisterSerializer, \
+    CoinSerializer
+from core.models import Portfolio, Coin
 
-from api.serializers import UserPortfolioCreateSerializer, UserPortfolioSerializer, UserPortfolioRetrieveSerializer, \
-    UserRegisterSerializer, CoinSerializer
-from core.models import Portfolio, User, Coin
 
-
-class AddPortfolioAPIView(generics.ListCreateAPIView):
-    queryset = Portfolio.objects.all()
+# worked
+class CreatePortfolioAPIView(generics.CreateAPIView):
+    """
+    CREATE USER PORTFOLIO ENDPOINT
+    """
     serializer_class = UserPortfolioCreateSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (permissions.IsAuthenticated,)
 
 
-class PortfolioListAPIView(generics.ListAPIView):
-    queryset = Portfolio.objects.all()
+# worked
+class UserPortfolioAPIView(generics.ListAPIView):
+    """
+    VIEW USER PORTFOLIOS ENDPOINT
+    """
     serializer_class = UserPortfolioSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        user_id = self.request.user.id
+        return Portfolio.objects.filter(owner_id=user_id)
 
 
+# worked
 class RegisterUserAPIView(generics.CreateAPIView):
+    """
+    REGISTER USER ENDPOINT
+    """
     serializer_class = UserRegisterSerializer
 
 
 # worked
 class AddCoinAPIView(APIView):
+    """
+    ADD COIN TO PORTFOLIO ENDPOINT
+    """
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request):
@@ -43,12 +57,15 @@ class AddCoinAPIView(APIView):
             token.save()
             portfolio.coins.add(token)
             return Response(status=status.HTTP_201_CREATED)
-        except EOFError:
+        except exceptions.ObjectDoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 # worked , 1 query with 1 join
 class DeleteCoinAPIView(generics.DestroyAPIView):
+    """
+    DELETE CURRENT COIN FROM PORTFOLIO
+    """
     queryset = Portfolio.objects.all()
     serializer_class = CoinSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -61,5 +78,5 @@ class DeleteCoinAPIView(generics.DestroyAPIView):
                 return Response(status=status.HTTP_202_ACCEPTED)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-        except Exception:
+        except exceptions.ObjectDoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
