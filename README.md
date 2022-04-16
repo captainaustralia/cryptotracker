@@ -1,14 +1,3 @@
-_<h1>A small web app to track the growth and fall of my crypto portfolio</h1>_
-<hr>
-<h3> Ready endpoints</h3>
-<ul>
-<li>Register  -> api/register</li>
-<li>Create portfolio -> api/addportfolio </li>
-<li>Add token to portfolio -> api/testadd</li>
-<li>Delete token from portfolio -> api/testdelete</li>
-</ul>
-<hr>
-<h3> To deploy the project to yourself :  </h3>
-<p>Install venv -> <code>python -m venv venv</code></p>
-<p>Install requirements -> <code>pip install -r requirements.txt</code></p>
-<p>Default migrations -> <code> makemigrations/migrate</code></p>
+This branch contains JWT authentication with saving a token in cookies, but I don't quite understand how I can check the state of the client, and also what to do with passing the refresh token, maybe I'll use this later. But now I'm facing several problems :
+- how to pass a refresh token (it is possible to make access infinite, but then what's the point)
+- how to use this token from cookies to reflect the state of the client (it is possible to put some kind of state with the true flag in vuex after authorization and remove it after some point ...)
