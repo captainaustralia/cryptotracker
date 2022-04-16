@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CoinSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coin
-        fields = ('name', 'buy_price')
+        fields = '__all__'
 
 
 class UserPortfolioSerializer(serializers.ModelSerializer):

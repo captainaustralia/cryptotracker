@@ -1,5 +1,5 @@
 <template>
-    <section class="vh-80 gradient-custom">
+  <section class="vh-80 gradient-custom">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -16,7 +16,7 @@
                   <input v-model="password" type="password" id="typePasswordX" class="form-control form-control-lg"/>
                   <label class="form-label" for="typePasswordX">Password</label>
                 </div>
-                <button @click="login" class="btn btn-outline-light btn-lg px-5" type="submit">Log in</button>
+                <button @click="testlogin" class="btn btn-outline-light btn-lg px-5" type="submit">Log in</button>
               </div>
               <div>
                 <p class="mb-0">Don't have an account yet? <a href="#!" class="text-white-50 fw-bold">Sign up</a>
@@ -32,6 +32,7 @@
 
 <script>
 import axios from "axios";
+import router from "@/router";
 
 export default {
   name: "Login",
@@ -42,6 +43,20 @@ export default {
     }
   },
   methods: {
+    async testlogin() {
+      try {
+        const response = (await axios.post('http://127.0.0.1:8000/api/testauth/', {
+              email: this.email,
+              password: this.password
+            },
+            {
+              withCredentials: true,
+            }))
+        await router.push('/home')
+      } catch (e) {
+        console.log(e)
+      }
+    },
     async login() {
       try {
         const response = await axios.post('http://127.0.0.1:8000/api/token/', {
