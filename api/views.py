@@ -1,13 +1,19 @@
+from django.contrib.auth import authenticate
+from django.middleware import csrf
 from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.core import exceptions
+from rest_framework_simplejwt.tokens import RefreshToken
+
 from api.serializers import UserPortfolioCreateSerializer, UserPortfolioSerializer, UserRegisterSerializer, \
     CoinSerializer
 from core.models import Portfolio, Coin
 
-
 # worked
+from mycryptotracker import settings
+
+
 class CreatePortfolioAPIView(generics.CreateAPIView):
     """
     CREATE USER PORTFOLIO ENDPOINT
@@ -50,6 +56,9 @@ class AddCoinAPIView(APIView):
         price = request.data['buy_price']
         token_price = request.data['coin_price']
         amount = request.data['amount']
+        print(amount)
+        if amount == 0:
+            amount = price / token_price
         portfolio = Portfolio.objects.get(owner_id=request.user.id)
         print(portfolio)
         try:
@@ -80,3 +89,42 @@ class DeleteCoinAPIView(generics.DestroyAPIView):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         except exceptions.ObjectDoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+def get_token(user):
+    refresh = RefreshToken.for_user(user)
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token)
+    }
+
+
+# JWT COOKIE STORE
+# Работает корректно, но довольно трудно регулировать состояние клиента, и не понятен алгоритм работы при протухании
+# При необходимости можно подключить. Маловероятно, что будет использоваться в проекте.
+
+class LoginView(APIView):
+    def post(self, request):
+        print(request.data)
+        data = request.data
+        response = Response()
+        email = request.data['email']
+        password = request.data['password']
+        print(email, password)
+        user = authenticate(username=email, password=password)
+        if user is not None and user.is_active:
+            data = get_token(user)
+            response.set_cookie(
+                key=settings.SIMPLE_JWT['AUTH_COOKIE'],
+                value=data["access"],
+                expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
+                secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
+                httponly=settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],
+                samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
+            )
+            csrf.get_token(request)
+            response.data = {"data": data}
+            return response
+        else:
+            return Response({"Some troubles": "Your account no active or not found"},
+                            status=status.HTTP_400_BAD_REQUEST)

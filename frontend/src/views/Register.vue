@@ -11,7 +11,8 @@
                 <div class="form-outline form-white mb-4">
                   <input v-model="email" type="email" id="typeEmailX" class="form-control form-control-lg"/>
                   <label class="form-label" for="typeEmailX">Email</label>
-                </div><div class="form-outline form-white mb-4">
+                </div>
+                <div class="form-outline form-white mb-4">
                   <input v-model="username" type="text" id="typeUsernameX" class="form-control form-control-lg"/>
                   <label class="form-label" for="typeEmailX">Username</label>
                 </div>
@@ -22,7 +23,7 @@
                 <button @click="register" class="btn btn-outline-light btn-lg px-5" type="submit">Register</button>
               </div>
               <div>
-                <p class="mb-0">Already have account? <a href="#!" class="text-white-50 fw-bold">Log in</a>
+                <p class="mb-0">Already have account? <a href="" class="text-white-50 fw-bold"> <router-link to="/login">Login</router-link></a>
                 </p>
               </div>
             </div>
@@ -35,6 +36,8 @@
 
 <script>
 import axios from "axios";
+import router from "@/router";
+
 
 export default {
   name: "Register",
@@ -53,6 +56,7 @@ export default {
           username: this.username,
           password: this.password
         })
+        await router.push('/login')
       } catch (e) {
         alert('Something wrong')
       }
