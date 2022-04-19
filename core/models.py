@@ -4,7 +4,7 @@ from django.db import models
 
 class CustomUserManager(BaseUserManager):
 
-    def create_user(self, email, password, username='', is_staff=False, is_admin=False, is_active=False):
+    def create_user(self, email, password, username='', is_staff=False, is_admin=False, is_active=True):
         user_obj = self.model(email=self.normalize_email(email))
         user_obj.username = username
         user_obj.is_admin = is_admin

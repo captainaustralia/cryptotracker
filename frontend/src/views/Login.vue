@@ -16,10 +16,12 @@
                   <input v-model="password" type="password" id="typePasswordX" class="form-control form-control-lg"/>
                   <label class="form-label" for="typePasswordX">Password</label>
                 </div>
-                <button @click="testlogin" class="btn btn-outline-light btn-lg px-5" type="submit">Log in</button>
+                <button @click="defaultLogin" class="btn btn-outline-light btn-lg px-5" type="submit">Log in</button>
               </div>
               <div>
-                <p class="mb-0">Don't have an account yet? <a href="#!" class="text-white-50 fw-bold">Sign up</a>
+                <p class="mb-0">Don't have an account yet? <a href="" class="text-white-50 fw-bold">
+                  <router-link to="/register">Sign up</router-link>
+                </a>
                 </p>
               </div>
             </div>
@@ -43,21 +45,22 @@ export default {
     }
   },
   methods: {
-    async testlogin() {
+    async specLogin() {
       try {
-        const response = (await axios.post('http://127.0.0.1:8000/api/testauth/', {
+        const response = (await axios.post('http://127.0.0.1:8000/api/spec_auth/', {
               email: this.email,
               password: this.password
             },
             {
               withCredentials: true,
             }))
-        await router.push('/home')
+        await router.push('/')
+        console.log(response.data)
       } catch (e) {
         console.log(e)
       }
     },
-    async login() {
+    async defaultLogin() {
       try {
         const response = await axios.post('http://127.0.0.1:8000/api/token/', {
           email: this.email,
@@ -65,7 +68,10 @@ export default {
         })
         const access = response.data['access']
         const refresh = response.data['refresh']
-        console.log(access, refresh)
+        localStorage.setItem('access', access)
+        localStorage.setItem('refresh', refresh)
+        localStorage.setItem('auth', true)
+        await router.push('/')
       } catch (e) {
         alert('Wrong email/password')
       }

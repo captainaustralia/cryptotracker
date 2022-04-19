@@ -99,6 +99,10 @@ def get_token(user):
     }
 
 
+# JWT COOKIE STORE
+# Работает корректно, но довольно трудно регулировать состояние клиента, и не понятен алгоритм работы при протухании
+# При необходимости можно подключить. Маловероятно, что будет использоваться в проекте.
+
 class LoginView(APIView):
     def post(self, request):
         print(request.data)
@@ -122,4 +126,5 @@ class LoginView(APIView):
             response.data = {"data": data}
             return response
         else:
-            return Response({"Some troubles": "Your account no active or not found"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"Some troubles": "Your account no active or not found"},
+                            status=status.HTTP_400_BAD_REQUEST)
