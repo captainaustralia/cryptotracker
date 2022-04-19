@@ -23,7 +23,7 @@
                 <button @click="register" class="btn btn-outline-light btn-lg px-5" type="submit">Register</button>
               </div>
               <div>
-                <p class="mb-0">Already have account? <a href="#!" class="text-white-50 fw-bold">Log in</a>
+                <p class="mb-0">Already have account? <a href="" class="text-white-50 fw-bold"> <router-link to="/login">Login</router-link></a>
                 </p>
               </div>
             </div>

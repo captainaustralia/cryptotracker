@@ -1,13 +1,40 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home |</router-link>
-    <router-link to="/about">About |</router-link>
-    <router-link to="/login">Login |</router-link>
-    <router-link to="/register">Register</router-link>
+    <div v-if="this.auth === 'true'">
+      <router-link to="/">Home</router-link>
+      <router-link to="/about">About</router-link>
+    </div>
+    <div v-if="this.auth !== 'true'">
+      <router-link to="/login">Login |</router-link>
+      <router-link to="/register">Register</router-link>
+    </div>
+    <button type="button" @click="logout">Logout</button>
   </div>
   <router-view/>
 </template>
 
+<script>
+import router from "@/router";
+
+export default {
+  data() {
+    return {
+      auth: localStorage.getItem('auth'),
+      user_id:1
+    }
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('access')
+      localStorage.removeItem('refresh')
+      localStorage.removeItem('auth')
+      this.auth = ''
+      this.user_id = ''
+      router.push('/login')
+    }
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

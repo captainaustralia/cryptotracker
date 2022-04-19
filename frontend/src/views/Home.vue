@@ -1,8 +1,4 @@
 <template>
-  <button @click="takePortfolio">GetPortfolio</button>
-  <button @click="fetchPrice(name='BTC')">test</button>
-  <button @click="fetchPrice(name='LTC')">test</button>
-  <button @click="fetchPrice(name='DASH')">test</button>
   <div class="container-fluid">
     <div class="profile">
       <div class="row">
@@ -43,7 +39,6 @@
           <td>{{ coin['name'] }}</td>
           <td>{{ coin['buy_price'] }} $</td>
           <td>{{ coin['coin_price'] }} $</td>
-
           <td>{{ coin['amount'] }}</td>
           <td></td>
         </tr>
@@ -66,11 +61,9 @@ export default {
   },
   methods: {
     async takePortfolio() {
-      const token = await axios.post('http://127.0.0.1:8000/api/token/', {email: 'admin@mail.ru', password: 'admin'})
-      const access = token.data['access']
       const response = (await axios.get('http://127.0.0.1:8000/api/portfolio/', {
         headers: {
-          Authorization: `Bearer ${access}`
+          Authorization: `Bearer ${localStorage.getItem('access')}`
         }
       }))
       console.log(response.data)
@@ -84,15 +77,18 @@ export default {
         const price = await fetch(`https://min-api.cryptocompare.com/data/price?fsym=${name}&tsyms=USD&api_key=1188a92804a7191cda39795614628122e24350f53e3defb630dfe1ba0162a0ff`);
         const data = await price.json();
         console.log(data);
-      }, 1000);
+      }, 5000);
     },
     async addToken(name) {
       setInterval(async () => {
         const price = await axios.post('http://127.0.0.1:8000/api/addtoken/');
         const data = await price.json();
         console.log(data);
-      }, 1000);
+      }, 5000);
     },
+    async test(){
+      const rofl = await axios.post('http://127.0.0.1:8000/api/token/verify/')
+    }
 
   },
   mounted() {
