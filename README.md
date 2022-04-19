@@ -16,20 +16,25 @@ _<h1>A small web app to track the growth and fall of my crypto portfolio</h1>_
 <h3>v1.1 pre </h3>
 Implemented on the backend side:
 
-Registration
-Authorization via JWT (there is also an implementation, via storing jwt in a cookie, with the httponly * flag if necessary)
-Custom user model
-Custom manager
-Other models
+<ul>
+<li>Registration</li>
+<li>Authorization via JWT (there is also an implementation, via storing jwt in a cookie, with the httponly * flag if necessary)</li>
+<li>Custom user model</li>
+<li>Custom manager</li>
+<li>Other models</li>
+</ul>
+
 Created the necessary endpoints (starter package)
--> register
--> access token
--> refresh token
--> portfolio
--> add coin
--> delete coin
+<ul>
+<li>-> register</li>
+<li>-> access token</li>
+<li>-> refresh token</li>
+<li>-> portfolio</li>
+<li>-> add coin</li>
+<li>-> delete coin</li>
+</ul>
 
 To the front side (Vue3):
 
-An indefinite part (test) has been written.
-Some functionality has been added, including endpoints for authorization, registration, getting data from a portfolio, tracking users + a mechanism for automatically renewing tokens
+<p>An indefinite part (test) has been written.
+Some functionality has been added, including endpoints for authorization, registration, getting data from a portfolio, tracking users + a mechanism for automatically renewing tokens</p>
