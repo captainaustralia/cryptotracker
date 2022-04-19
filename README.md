@@ -12,8 +12,8 @@ _<h1>A small web app to track the growth and fall of my crypto portfolio</h1>_
 <p>Install venv -> <code>python -m venv venv</code></p>
 <p>Install requirements -> <code>pip install -r requirements.txt</code></p>
 <p>Default migrations -> <code> makemigrations/migrate</code></p>
-
-1.1 
+<hr>
+<h3>v1.1 pre </h3>
 Implemented on the backend side:
 
 Registration
