@@ -8,7 +8,7 @@
       <router-link to="/login">Login |</router-link>
       <router-link to="/register">Register</router-link>
     </div>
-    <button type="button" @click="logout">Logout</button>
+    <button class="btn btn-primary" type="button" @click="logout">Logout</button>
   </div>
   <router-view/>
 </template>
@@ -20,7 +20,6 @@ export default {
   data() {
     return {
       auth: localStorage.getItem('auth'),
-      user_id:1
     }
   },
   methods: {
