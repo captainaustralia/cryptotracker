@@ -39,20 +39,22 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: #4276b9;
 }
 
 #nav {
   padding: 15px;
-  text-align: center;
+  text-align: right;
+  width: 100%;
+  background-color: black;
 }
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #ffffff;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: rgba(220, 220, 220, 0.63);
 }
 </style>

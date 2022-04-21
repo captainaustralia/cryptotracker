@@ -51,6 +51,7 @@ class AddCoinAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request):
+        print(request.data)
         data = request.data
         token_name = request.data['name']
         price = request.data['buy_price']
