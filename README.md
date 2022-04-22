@@ -1,4 +1,6 @@
 _<h1>A small web app to track the growth and fall of my crypto portfolio</h1>_
+![image](https://user-images.githubusercontent.com/61281668/164613859-b54d777b-9d67-43a5-a45a-fa1f91428308.png)
+
 <hr>
 <h3> Ready endpoints</h3>
 <ul>
