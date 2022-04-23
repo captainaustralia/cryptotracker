@@ -7,6 +7,9 @@ _<h1>A small web app to track the growth and fall of my crypto portfolio</h1>_
 <p>Install requirements -> <code>pip install -r requirements.txt</code></p>
 <p>Default migrations -> <code> makemigrations/migrate</code></p>
 <code> Django v 4.0.4 / Django Rest Framework 3.13.1 </code>
+
+<p> Frontside <strong> Vue 3 </strong></p>
+<p> Install npm (frontend folder) -> <code> npm install </code>
 <hr>
 <h3>v1.1 pre </h3>
 Implemented on the backend side:
