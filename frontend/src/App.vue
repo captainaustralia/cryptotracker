@@ -47,6 +47,7 @@ export default {
   text-align: right;
   width: 100%;
   background-color: black;
+  border-bottom: solid 2px white;
 }
 
 #nav a {

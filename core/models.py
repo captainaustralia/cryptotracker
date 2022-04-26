@@ -67,7 +67,7 @@ class Coin(models.Model):
         max_length=100
     )
 
-    buy_price = models.FloatField() # delete
+    buy_price = models.FloatField()  # delete
 
     coin_price = models.FloatField()
 

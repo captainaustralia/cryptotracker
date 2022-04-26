@@ -13,13 +13,13 @@
       </tr>
       </thead>
       <tbody class="text-center">
-        <coin
-            v-for="coin in coins"
-            :key="coin.id"
-            :coins_data="coin"
-            v-bind="coin"
-            @remove="$emit('remove',coin)"
-        />
+      <coin
+          v-for="coin in coins"
+          :key="coin.id"
+          :coins_data="coin"
+          v-bind="coin"
+          @remove="$emit('remove',coin)"
+      />
       </tbody>
     </table>
   </div>
@@ -41,5 +41,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

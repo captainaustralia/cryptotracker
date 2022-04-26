@@ -5,10 +5,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.core import exceptions
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from api.serializers import UserPortfolioCreateSerializer, UserPortfolioSerializer, UserRegisterSerializer, \
-    CoinSerializer
-from core.models import Portfolio, Coin
+    CoinSerializer, UserSerializer
+from core.models import Portfolio, Coin, User
 
 # worked
 from mycryptotracker import settings
@@ -53,6 +53,7 @@ class AddCoinAPIView(APIView):
     def post(self, request):
         print(request.data)
         data = request.data
+        portfolio_name = request.data['portfolio']
         token_name = request.data['name']
         price = request.data['buy_price']
         token_price = request.data['coin_price']
@@ -60,13 +61,13 @@ class AddCoinAPIView(APIView):
         print(amount)
         if amount == 0:
             amount = price / token_price
-        portfolio = Portfolio.objects.get(owner_id=request.user.id)
+        portfolio = Portfolio.objects.get(owner_id=request.user.id, name=portfolio_name)
         print(portfolio)
         try:
             token = Coin(name=token_name, buy_price=price, coin_price=token_price, amount=amount)
             token.save()
             portfolio.coins.add(token)
-            return Response(status=status.HTTP_201_CREATED)
+            return Response(data=token.id,status=status.HTTP_201_CREATED)
         except exceptions.ObjectDoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -98,6 +99,33 @@ def get_token(user):
         'refresh': str(refresh),
         'access': str(refresh.access_token)
     }
+
+
+class AuthUserInfo(APIView):
+    """
+    AUTH USER INFORMATION ENDPOINT
+    """
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request):
+        JWT_auth = JWTAuthentication()
+        response = JWT_auth.authenticate(request)
+        if response is not None:
+            user = User.objects.get(id=response[1]['user_id'])
+            serializer = UserSerializer(user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+class GetUserPortfolios(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request):
+        JWT_auth = JWTAuthentication()
+        response = JWT_auth.authenticate(request)
+        if response is not None:
+            user = Portfolio.objects.filter(owner_id=response[1]['user_id'])
 
 
 # JWT COOKIE STORE

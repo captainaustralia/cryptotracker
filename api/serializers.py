@@ -5,10 +5,11 @@ from core.models import User, Portfolio, Coin
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email', 'avatar')
+        exclude = ('password', 'is_active', 'is_admin', 'is_staff')
 
 
 class CoinSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Coin
         fields = '__all__'

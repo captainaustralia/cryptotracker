@@ -5,7 +5,7 @@
       <input v-model="coin.buy_price" placeholder="need delete">
       <input v-model="coin.coin_price" placeholder="Token price">
       <input v-model="coin.amount" placeholder="Amount">
-      <button @click="addCoin" class="btn">Add</button>
+      <button @click="addCoin"  class="btn">Add</button>
     </form>
   </div>
 </template>
