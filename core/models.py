@@ -46,8 +46,8 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = "email"
 
     def __str__(self):
-        if self.username is None:
-            return 'Admin'
+        if self.username == '':
+            return f'Admin, {self.email}'
         else:
             return self.username
 

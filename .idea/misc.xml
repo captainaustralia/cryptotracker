@@ -3,7 +3,7 @@
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="FLOW" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.9 (mycryptotracker)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8 (cryptotracker)" project-jdk-type="Python SDK" />
   <component name="WebPackConfiguration">
     <option name="mode" value="DISABLED" />
   </component>
