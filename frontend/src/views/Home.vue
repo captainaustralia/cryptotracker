@@ -8,8 +8,8 @@
         <div class="text">
           <p class="text_info">E-mail: {{ user_info.email }}</p>
           <p class="text_info">Username : {{ user_info.username }}</p>
-          <p class="text_info">Portfolio : {{ portfolio_names.length }}</p>
-          <p class="text_info">Coins : 100</p>
+          <p class="text_info">Current portfolio name : {{ current }}</p>
+          <p class="text_info">Coins :{{ coins.length }}</p>
           <p class="text_info">Top 5 coins : </p>
           <p class="text_info">Total cash : </p>
         </div>
@@ -19,6 +19,7 @@
   <select v-model="current" @change="currentPortfolioCoin(current)">
     <option v-for="name in portfolio_names">{{ name }}</option>
   </select>
+  <a>Current {{ this.current }}</a>
   <portfolio-create-form @addPortfolio="createNewPortfolio"/>
   <coin-form @remove="removeCoin" v-bind:coins="coins"/>
   <add-coin @add="addCoin"/>
@@ -105,12 +106,12 @@ export default {
     },
 
     async createNewPortfolio(name) {
-      const response = await axios.post('http://127.0.0.1:8000/api/addportfolio/', {name:name}, {
+      const response = await axios.post('http://127.0.0.1:8000/api/addportfolio/', {name: name}, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access')}`
         }
       })
-      if (response.status === 201){
+      if (response.status === 201) {
         this.portfolio_names.push(name)
       }
     }

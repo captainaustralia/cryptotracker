@@ -1,13 +1,15 @@
 from django.contrib.auth import authenticate
 from django.middleware import csrf
 from rest_framework import generics, status, permissions
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.core import exceptions
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from api.serializers import UserPortfolioCreateSerializer, UserPortfolioSerializer, UserRegisterSerializer, \
-    CoinSerializer, UserSerializer
+    CoinSerializer, UserSerializer, PostSerializer, CommentSerializer
+from blog.models import Post, Comment
 from core.models import Portfolio, Coin, User
 
 # worked
@@ -67,7 +69,7 @@ class AddCoinAPIView(APIView):
             token = Coin(name=token_name, buy_price=price, coin_price=token_price, amount=amount)
             token.save()
             portfolio.coins.add(token)
-            return Response(data=token.id,status=status.HTTP_201_CREATED)
+            return Response(data=token.id, status=status.HTTP_201_CREATED)
         except exceptions.ObjectDoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -126,6 +128,25 @@ class GetUserPortfolios(APIView):
         response = JWT_auth.authenticate(request)
         if response is not None:
             user = Portfolio.objects.filter(owner_id=response[1]['user_id'])
+
+
+class PostCreateAPIView(generics.CreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+class CommentCreateAPIView(generics.CreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 
 # JWT COOKIE STORE

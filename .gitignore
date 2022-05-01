@@ -2,3 +2,4 @@
 /venv
 /core/migrations/0001_initial.py
 /blog/migrations/0001_initial.py
+/blog/migrations/0002_remove_post_comments_comment_post.py
