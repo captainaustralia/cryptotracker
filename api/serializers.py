@@ -77,6 +77,8 @@ class CommentSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
+    date = serializers.DateTimeField()
+
     class Meta:
         model = Comment
         fields = '__all__'
