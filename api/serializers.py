@@ -66,6 +66,7 @@ class PostSerializer(serializers.ModelSerializer):
     owner = serializers.PrimaryKeyRelatedField(
         read_only=True
     )
+    date = serializers.DateTimeField()
 
     class Meta:
         model = Post
