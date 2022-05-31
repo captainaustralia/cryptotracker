@@ -148,6 +148,7 @@ class CommentCreateAPIView(generics.CreateAPIView):
         serializer.save(owner=self.request.user)
 
 
+
 # JWT COOKIE STORE
 # Работает корректно, но довольно трудно регулировать состояние клиента, и не понятен алгоритм работы при протухании
 # При необходимости можно подключить. Маловероятно, что будет использоваться в проекте.
