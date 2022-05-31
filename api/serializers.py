@@ -51,7 +51,8 @@ class UserPortfolioCreateSerializer(serializers.ModelSerializer):
 # worked
 class UserPortfolioRetrieveSerializer(serializers.ModelSerializer):
     coins = CoinSerializer(
-        many=True
+        many=True,
+        read_only=True
     )
 
     class Meta:
